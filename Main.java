@@ -17,8 +17,13 @@ public class Main {
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
 
-            int opcao = scanner.nextInt();
-            scanner.nextLine(); 
+            int opcao = -1;
+            if (scanner.hasNextInt()) {
+                opcao = scanner.nextInt();
+                scanner.nextLine();
+            } else {
+                scanner.next();
+            }
 
             if (opcao == 0) break;
 
@@ -26,6 +31,20 @@ public class Main {
                 case 1:
                     System.out.print("Digite o nome do usuário: ");
                     String nome = scanner.nextLine();
+
+                    boolean existe = false;
+                    for (Usuario u : usuarios) {
+                        if (u.getNome().equalsIgnoreCase(nome)) {
+                            existe = true;
+                            break;
+                        }
+                    }
+                    
+                    if (existe) {
+                        System.out.println("Erro: Já existe um usuário com o nome '" + nome + "' na plataforma.");
+                        break; 
+                    }
+
                     Usuario novoUsuario = new Usuario(nome);
                     usuarios.add(novoUsuario);
                     netflix.addObserver(novoUsuario);
